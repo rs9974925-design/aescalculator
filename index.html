@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riya's Cute Calculator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #fff4f7;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    color: #704c6a;
+}
+
+.page {
+    width: min(900px, 100%);
+    min-height: 550px;
+    background: #fffafc;
+    border: 2px solid #f2cfe0;
+    border-radius: 30px;
+    box-shadow: 0 15px 40px #dca9c333;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.sidebar {
+    width: 34%;
+    background: #f9e5f0;
+    padding: 35px 25px;
+    text-align: center;
+    border-right: 2px dashed #e8bad5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.name {
+    font-family: Georgia, serif;
+    font-size: 48px;
+    font-style: italic;
+    color: #b5689b;
+    margin: 10px 0;
+}
+
+.subtitle {
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.doodles {
+    font-size: 26px;
+    line-height: 2.3;
+    word-spacing: 8px;
+}
+
+.sticker {
+    font-size: 58px;
+    margin: 15px 0;
+}
+
+.calculator-area {
+    width: 66%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    font-family: Georgia, serif;
+    font-weight: normal;
+    margin: 0 0 18px;
+}
+
+.display {
+    background: #f9edf5;
+    border: 1px solid #edd0e3;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 15px;
+    text-align: right;
+    overflow: hidden;
+}
+
+#expression {
+    font-size: 14px;
+    min-height: 20px;
+    overflow-wrap: anywhere;
+    color: #ad8aa7;
+}
+
+#result {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    min-height: 42px;
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+}
+
+button {
+    min-height: 55px;
+    border: 1px solid #f0d8e7;
+    border-radius: 15px;
+    background: #fff;
+    color: #704c6a;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #f0d8e7;
+    transition: 0.15s;
+}
+
+button:hover {
+    background: #ffeaf4;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.operator {
+    background: #f5d9ed;
+}
+
+.utility {
+    background: #e8e0ff;
+}
+
+.equals {
+    background: #c9b7f5;
+    color: #fff;
+    font-weight: bold;
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+.bottom-doodle {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 15px;
+    color: #bd85ae;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+        align-items: flex-start;
+    }
+
+    .page {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 16px;
+        border-right: none;
+        border-bottom: 2px dashed #e8bad5;
+    }
+
+    .name {
+        font-size: 34px;
+    }
+
+    .sticker {
+        display: none;
+    }
+
+    .doodles {
+        font-size: 20px;
+        line-height: 1.7;
+    }
+
+    .calculator-area {
+        width: 100%;
+        padding: 22px 16px;
+    }
+
+    button {
+        min-height: 50px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <aside class="sidebar">
+        <div class="doodles">? ??°? ?</div>
+
+        <div class="sticker">? ?? ? ?? ?</div>
+
+        <div class="name">Riya</div>
+
+        <p class="subtitle">
+            little calculations,<br>
+            big dreams ??<br><br>
+            made with ?
+        </p>
+
+        <div class="doodles">
+            ?? ? ?? ?<br>
+            ? ?? ? ??<br>
+            ? ??° ? °??
+        </div>
+    </aside>
+
+    <main class="calculator-area">
+
+        <h2>My Little Calculator ?</h2>
+
+        <div class="display">
+            <div id="expression">Ready to calculate ?</div>
+            <div id="result">0</div>
+        </div>
+
+        <div class="keys">
+            <button class="utility" onclick="clearAll()">AC</button>
+            <button class="utility" onclick="signChange()">+/-</button>
+            <button class="utility" onclick="percent()">%</button>
+            <button class="operator" onclick="choose('/')">÷</button>
+
+            <button onclick="digit('7')">7</button>
+            <button onclick="digit('8')">8</button>
+            <button onclick="digit('9')">9</button>
+            <button class="operator" onclick="choose('*')">×</button>
+
+            <button onclick="digit('4')">4</button>
+            <button onclick="digit('5')">5</button>
+            <button onclick="digit('6')">6</button>
+            <button class="operator" onclick="choose('-')">-</button>
+
+            <button onclick="digit('1')">1</button>
+            <button onclick="digit('2')">2</button>
+            <button onclick="digit('3')">3</button>
+            <button class="operator" onclick="choose('+')">+</button>
+
+            <button class="zero" onclick="digit('0')">0</button>
+            <button onclick="digit('.')">.</button>
+            <button class="equals" onclick="calculate()">=</button>
+
+            <button class="utility" onclick="backspace()">?</button>
+            <button class="utility" onclick="square()">x²</button>
+            <button class="utility" onclick="squareRoot()">vx</button>
+            <button class="utility" onclick="reciprocal()">1/x</button>
+        </div>
+
+        <div class="bottom-doodle">
+            ? you can do anything ?
+        </div>
+
+    </main>
+</div>
+
+<script>
+let current = "0";
+let stored = null;
+let operator = null;
+let resetNext = false;
+
+const result = document.getElementById("result");
+const expression = document.getElementById("expression");
+
+function update() {
+    result.textContent = current;
+}
+
+function digit(value) {
+    if (resetNext) {
+        current = "0";
+        resetNext = false;
+    }
+
+    if (value === "." && current.includes(".")) return;
+
+    if (current === "0" && value !== ".") {
+        current = value;
+    } else {
+        if (current.length >= 16) return;
+        current += value;
+    }
+
+    update();
+}
+
+function clearAll() {
+    current = "0";
+    stored = null;
+    operator = null;
+    resetNext = false;
+    expression.textContent = "Ready to calculate ?";
+    update();
+}
+
+function choose(op) {
+    if (operator && !resetNext) calculate();
+
+    stored = Number(current);
+    operator = op;
+    expression.textContent = current + " " + op;
+    resetNext = true;
+}
+
+function calculate() {
+    if (operator === null || stored === null) return;
+
+    const a = stored;
+    const b = Number(current);
+    let answer;
+
+    switch (operator) {
+        case "+": answer = a + b; break;
+        case "-": answer = a - b; break;
+        case "*": answer = a * b; break;
+        case "/":
+            if (b === 0) {
+                current = "Cannot divide by zero";
+                expression.textContent = "Oops! ??";
+                update();
+                stored = null;
+                operator = null;
+                resetNext = true;
+                return;
+            }
+            answer = a / b;
+            break;
+    }
+
+    expression.textContent = a + " " + operator + " " + b + " =";
+
+    current = String(Number(answer.toPrecision(12)));
+    stored = null;
+    operator = null;
+    resetNext = true;
+    update();
+}
+
+function signChange() {
+    if (current !== "0" && !isNaN(Number(current))) {
+        current = String(-Number(current));
+        update();
+    }
+}
+
+function percent() {
+    if (!isNaN(Number(current))) {
+        current = String(Number(current) / 100);
+        update();
+    }
+}
+
+function square() {
+    if (isNaN(Number(current))) return;
+    expression.textContent = current + "²";
+    current = String(Number(current) ** 2);
+    resetNext = true;
+    update();
+}
+
+function squareRoot() {
+    const n = Number(current);
+    if (n < 0 || isNaN(n)) {
+        expression.textContent = "No real square root ??";
+        return;
+    }
+    expression.textContent = "v(" + current + ")";
+    current = String(Number(Math.sqrt(n).toPrecision(12)));
+    resetNext = true;
+    update();
+}
+
+function reciprocal() {
+    const n = Number(current);
+    if (n === 0) {
+        expression.textContent = "Cannot divide by zero";
+        return;
+    }
+    expression.textContent = "1 / " + current;
+    current = String(Number((1 / n).toPrecision(12)));
+    resetNext = true;
+    update();
+}
+
+function backspace() {
+    if (resetNext || current.length === 1 ||
+        (current.length === 2 && current.startsWith("-"))) {
+        current = "0";
+        resetNext = false;
+    } else {
+        current = current.slice(0, -1);
+    }
+    update();
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key >= "0" && event.key <= "9") digit(event.key);
+    else if (event.key === ".") digit(".");
+    else if (["+", "-", "*", "/"].includes(event.key)) choose(event.key);
+    else if (event.key === "Enter" || event.key === "=") calculate();
+    else if (event.key === "Escape") clearAll();
+    else if (event.key === "Backspace") backspace();
+});
+</script>
+
+</body>
+</html>
